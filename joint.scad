@@ -199,7 +199,7 @@ module stepperMountPrimitive(){
 	
 }
 
-module stepperMount();{
+module stepperMount(){
 	
 	translate([-stepperMotorWidth+outerExtrusionWidth,-stepperMotorWidth+outerExtrusionWidth,outerExtrusionHeight-	stepperMotorMountThickness]){
 		
@@ -209,6 +209,7 @@ module stepperMount();{
 	
 }
 
+stepperMount();
 
 jointOuterSupportPrimitive(true);
 
