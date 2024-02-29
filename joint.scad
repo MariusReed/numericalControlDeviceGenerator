@@ -160,7 +160,57 @@ module jointOuterSupportPrimitive(hasStepperMotorCutout){
 	
 }
 
-jointOuterSupportPrimitive(false);
+module stepperMountPrimitive(){
+	
+	difference(){
+                
+		cube([stepperMotorWidth,stepperMotorWidth,stepperMotorMountThickness],false);
+            
+		translate([-stepperMotorWidth/3,-stepperMotorWidth/3,-cutOut/2]){
+                    
+			cube([stepperMotorWidth,stepperMotorWidth,stepperMotorMountThickness+cutOut]);
+			
+		}
+            
+		translate([stepperMotorWidth/2,stepperMotorWidth/2,-cutOut/2]){
+                    
+            cylinder(stepperMotorMountThickness+cutOut,d=stepperMotorShaftDiameter,false);
+		
+		}
+            
+		translate([stepperMotorWidth-stepperThreadOffset,stepperMotorWidth-31,0]){
+                    
+            cylinder(stepperMotorMountThickness+cutOut,d=stepperMotorScrewDiameter,false );
+			
+		}
+                    
+        translate([stepperMotorWidth-stepperThreadOffset,stepperMotorWidth-stepperThreadOffset,0]){
+			
+            cylinder(stepperMotorMountThickness+cutOut,d=stepperMotorScrewDiameter,false);
+			
+		}
+                    
+        translate([stepperMotorWidth-31,stepperMotorWidth-stepperThreadOffset,0]){
+                    
+            cylinder(stepperMotorMountThickness+cutOut,d=stepperMotorScrewDiameter,false);
+		}
+                    
+	}
+	
+}
+
+module stepperMount();{
+	
+	translate([-stepperMotorWidth+outerExtrusionWidth,-stepperMotorWidth+outerExtrusionWidth,outerExtrusionHeight-	stepperMotorMountThickness]){
+		
+		stepperMountPrimitive();
+		
+	}	
+	
+}
+
+
+jointOuterSupportPrimitive(true);
 
 extrusionSleevePair();
 
