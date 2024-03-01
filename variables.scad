@@ -35,4 +35,23 @@ stepperMotorShaftDiameter = 22;
 stepperThreadOffset = 10;
 stepperMotorMountThickness = 4;
 
+//machine Dementions
+axisLengthY = 500;
+axisLengthX = 500;
+
+//X axis gantry carriage
+xCarriageWidth = outerExtrusionDepth;
+xCarriageDepth = outerExtrusionWidth*2;
+xCarriageHeight = wallThickness;
+
+//Z tool carridge (tc)
+tcThreadedRodDiamiter = 8;
+tcThreadedRodOffset = tcThreadedRodDiamiter/2+wallThickness;
+tcSmoothRodDiamiter = 8;
+tcSmoothRodOffset = tcSmoothRodDiamiter/2+wallThickness;
+tcLeadScrewDiamiter = 8;
+
+toolCarridgePlateZ = wallThickness;
+toolCarridgePlateY = extrusionDepth;
+toolCarridgePlateX = tcThreadedRodDiamiter*2+tcSmoothRodDiamiter*2+tcLeadScrewDiamiter+wallThickness*6;
 
