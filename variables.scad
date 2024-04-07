@@ -51,6 +51,10 @@ stepperMotorMountThickness = 4;
 axisLengthY = 500;
 axisLengthX = 500;
 
+//machine demetions
+machineX = axisLengthX+wallThickness*2+outerExtrusionWidth*2;
+machineY = axisLengthY+wallThickness*2+outerExtrusionWidth*2;
+
 //X axis gantry carriage
 xCarriageWidth = outerExtrusionDepth;
 xCarriageDepth = outerExtrusionWidth*2;

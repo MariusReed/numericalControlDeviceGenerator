@@ -32,15 +32,27 @@ module extrusionBoltHoles(){
 module extrusionSleevePair(){
 	
 	translate([0,outerExtrusionWidth,0]){
-		
-		extrusionSleevePrimitive();
-		
+			
+			difference(){
+				
+				extrusionSleevePrimitive();
+			
+				extrusionBoltHoles();
+				
+			}
+			
 		translate([outerExtrusionWidth,0,0]){
 		
 			rotate([0,0,-90]){
+				
+				difference(){
+					
+					extrusionSleevePrimitive();
 			
-				extrusionSleevePrimitive();
-			
+					extrusionBoltHoles();
+					
+				}
+				
 			}
 			
 		}
@@ -223,9 +235,6 @@ module stepperMount(){
 }
 
 //stepperMount();
-
 //jointOuterSupportPrimitive(true);
-
 //extrusionSleevePair();
-
 //jointInnerSupport();

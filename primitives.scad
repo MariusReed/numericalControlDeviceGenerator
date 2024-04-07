@@ -7,8 +7,6 @@ module extrusionSleevePrimitive(){
 		
 		cube([outerExtrusionWidth, outerExtrusionDepth, outerExtrusionHeight], false);
 		
-		extrusionBoltHoles();
-		
 		translate([wallThickness,wallThickness,wallThickness]){
 			
 			cube([extrusionWidth, extrusionDepth+cutOut, extrusionHeight], false);
@@ -44,4 +42,4 @@ module xGantryCarriagePrimitive(){
 	}
 	
 }
-xGantryCarriagePrimitive();
+
