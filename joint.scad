@@ -1,20 +1,33 @@
 include <variables.scad>;
+include <primitives.scad>;
 
-module extrusionSleevePrimitive(){
-	
-	difference(){
-		
-		cube([outerExtrusionWidth, outerExtrusionDepth, outerExtrusionHeight], false);
-		
-		translate([wallThickness,wallThickness,wallThickness]){
-			
-			cube([extrusionWidth, extrusionDepth+cutOut, extrusionHeight], false);
+//this needs to be re worked
+module extrusionBoltHoles(){
+
+	for(boltPlacementZ  = [wallThickness+extrusionSlotOffset+extrusionSlotWidth/2: extrusionSlotMid+extrusionSlotWidth/2 : extrusionHeight]){
+													
+		for(boltPlacementY = [wallThickness+extrusionDepth/4: extrusionDepth/2 : extrusionDepth]){
+					
+				
+			translate([-cutOut/2,boltPlacementY,boltPlacementZ]){  
+				
+				rotate([0,90,0]){
+						
+						
+					extrusionBoltPrimitive();
+						
+            
+				}
+						
+			}
 			
 		}
 		
-	}                                               
-		
+	}
+	
 }
+
+
 
 module extrusionSleevePair(){
 	

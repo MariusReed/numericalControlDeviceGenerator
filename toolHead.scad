@@ -16,15 +16,23 @@ module tcThreadedRodLoop(){
 	
 }
 
-module tcSmoothRodLoop(){
+module tcSmoothRodPlatform(){
 	
-	for (front = [-1,1]){
-			
-		translate([front*(tcSmoothRodOffset+wallThickness),-toolCarridgePlateY/2+tcSmoothRodOffset,(-toolCarridgePlateZ-cutOut)/2]){
-			
-			cylinder(h=toolCarridgePlateZ+cutOut,d=tcSmoothRodDiamiter);
+	difference(){
+	
+		translate([0,-toolCarridgePlateY/2-tcSmoothRodPlatformY/2,0]){
+			cube([tcSmoothRodPlatformX,tcSmoothRodPlatformY,tcSmoothRodPlatformZ],true);
 		}
+	
+		for (front = [-1,1]){
+			
+			translate([front*(tcSmoothRodOffset+wallThickness),-toolCarridgePlateY/2-tcSmoothRodPlatformY/2,(-toolCarridgePlateZ-cutOut)/2]){
+			
+				cylinder(h=toolCarridgePlateZ+cutOut,d=tcSmoothRodDiamiter);
+			}
 		
+		}
+	
 	}
 	
 }
@@ -49,12 +57,123 @@ module toolCarridgePlatePrimitive(){
 	
 		tcThreadedRodLoop();
 		
-		tcSmoothRodLoop();
-		
 		tcLeadScrewHole();
+		
+	}
+	
+	tcSmoothRodPlatform();
+	
+}
+
+module tcLeadScrewBearingHousing(){
+	
+	difference(){
+		
+		cube([tcLeadScrewBearingHousingX,tcLeadScrewBearingHousingY,tcLeadScrewBearingHousingZ],true);
+		
+		translate([0,0,-(tcLeadScrewBearingHousingZ+cutOut)/2]){
+			
+			cylinder(h=tcLeadScrewBearingHousingZ+cutOut,d=zz608BearingOD);
+			
+		}
+		
+	}
+	
+}	
+
+module toolHeadSlideHalf(){
+	difference(){
+		union(){
+			hull(){
+				for (front = [-1,1]){
+			
+					translate([front*(tcSmoothRodOffset+wallThickness),-toolCarridgePlateY/2-tcSmoothRodPlatformY/2,0]){
+			
+						cylinder(h=toolHeadSlideHight, d=lm8luuOD+wallThickness);
+
+					}
+		
+				}
+			
+				cylinder(h=toolHeadSlideHight, d=tcLeadScrewDiamiter+wallThickness);
+		
+			}
+			translate([0,0,toolHeadSlideHight/2]){
+				
+				cube([tcLeadScrewNutWidth,tcLeadScrewNutWidth,toolHeadSlideHight],true);
+			}
+		}
+		
+		for (front = [-1,1]){
+			
+			translate([front*(tcSmoothRodOffset+wallThickness),-toolCarridgePlateY/2-tcSmoothRodPlatformY/2,0]){
+			
+				cylinder(h=lm8luuHeight/2, d=lm8luuOD);
+						
+				translate([0,0,toolHeadSlideHight-wallThickness/2]){
+							
+					cylinder(h=wallThickness/2+cutOut, d=tcSmoothRodDiamiter);
+							
+				}
+				
+			}
+	
+		}
+		
+		translate([0,0,-cutOut/2]){
+			cylinder(h=toolHeadSlideHight+cutOut, d=tcLeadScrewDiamiter);
+		}
 		
 	}
 	
 }
 
-toolCarridgePlatePrimitive();
+
+toolHeadSlideHalf();
+//mirror([0,0,1])toolHeadSlideHalf();
+
+module toolCarridgePlateBottom(){
+	
+	
+		translate([0,(-toolCarridgePlateY+tcLeadScrewBearingHousingY)/2,-toolCarridgePlateZ+tcLeadScrewBearingHousingZ/2]){
+			
+			tcLeadScrewBearingHousing();
+			
+		}
+		
+		translate([0,0,toolCarridgePlateZ/2]){
+		
+			toolCarridgePlatePrimitive();
+		
+		}
+		
+	
+	
+}
+
+module toolCarridgePlateTop(){
+	
+	
+	
+	translate([0,0,tcHeight-toolCarridgePlateZ/2]){
+		
+		toolCarridgePlatePrimitive();
+
+		translate([0,(-toolCarridgePlateY+tcLeadScrewBearingHousingY)/2,toolCarridgePlateZ/2+tcLeadScrewBearingHousingZ/2]){
+			
+			tcLeadScrewBearingHousing();
+			
+		}
+	}
+	
+}
+
+module toolCarridge(){
+	
+	toolCarridgePlateTop();
+	
+	toolCarridgePlateBottom();
+	
+}
+
+//toolCarridge();
