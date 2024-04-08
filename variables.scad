@@ -65,7 +65,10 @@ xGantryLength = xCarriageWidth*2+axisLengthX+outerExtrusionDepth*2;
 //Z tool carridge (tc)
 tcThreadedRodDiamiter = 8;
 tcThreadedRodOffset = tcThreadedRodDiamiter/2+wallThickness;
-tcSmoothRodDiamiter = 8;
+
+tcSmoothRodLenght = 50;
+tcSmoothRodDiamiter = 4;
+
 tcSmoothRodOffset = tcSmoothRodDiamiter/2+wallThickness;
 
 tcLeadScrewDiamiter = 8;
@@ -75,7 +78,9 @@ toolCarridgePlateX = tcThreadedRodDiamiter*2+tcSmoothRodDiamiter*2+tcLeadScrewDi
 toolCarridgePlateY = extrusionDepth;
 toolCarridgePlateZ = wallThickness;
 
-tcHeight = extrusionHeight+toolCarridgePlateZ*2+cutOut*2;
+tcPenSliderX = toolCarridgePlateX+wallThickness*2;
+tcPenSliderY = tcSmoothRodDiamiter+wallThickness;
+tcPenSliderZ = tcSmoothRodLenght;
 
 tcSmoothRodPlatformX = toolCarridgePlateX;
 tcSmoothRodPlatformY = wallThickness*2+tcSmoothRodDiamiter;
