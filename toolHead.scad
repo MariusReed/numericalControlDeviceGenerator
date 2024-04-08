@@ -1,5 +1,5 @@
 include <variables.scad>;
-
+/*
 module tcThreadedRodLoop(){
 	
 	for (right = [-1,1]){
@@ -175,5 +175,110 @@ module toolCarridge(){
 	toolCarridgePlateBottom();
 	
 }
-
+//tcSmoothRodLenght
+//tcSmoothRodDiamiter
 //toolCarridge();
+*/
+module penToolSlideSideZ(){
+	
+	cube([wallThickness,tcPenSliderY,tcSmoothRodLenght]);
+	
+}
+
+module penToolSlideSideX(){
+	
+	cube([tcPenSliderX,tcPenSliderY,wallThickness]);
+
+}
+
+module toolHeadCarridgeBase(){
+
+	cube([toolCarridgePlateX,toolCarridgePlateY,toolCarridgePlateZ]);
+	
+	translate([0,-tcSmoothRodDiamiter-wallThickness,toolCarridgePlateZ]){
+			
+		cube([toolCarridgePlateX,toolCarridgePlateY+tcSmoothRodDiamiter+wallThickness,toolCarridgePlateZ]);
+			
+	}
+
+}
+
+module toolHeadCarridge(){
+	//difference(){
+		union(){
+		
+			toolHeadCarridgeBase();
+			
+			translate([-wallThickness,-tcSmoothRodDiamiter-wallThickness,-tcPenSliderZ/2]){
+				
+				penToolSlideSideX();
+				
+			}
+			
+			translate([-wallThickness,-tcSmoothRodDiamiter-wallThickness,tcPenSliderZ/2-wallThickness]){
+				
+				penToolSlideSideX();
+				
+			}
+			
+			translate([-wallThickness,-tcSmoothRodDiamiter-wallThickness,-tcPenSliderZ/2]){
+				
+				penToolSlideSideZ();
+					
+			}
+			
+			translate([toolCarridgePlateX,-tcSmoothRodDiamiter-wallThickness,-tcPenSliderZ/2]){
+				
+				penToolSlideSideZ();
+				
+			}
+				
+		}
+		
+		union(){
+			
+			translate([tcSmoothRodDiamiter/2+wallThickness,-tcSmoothRodDiamiter,-tcSmoothRodLenght/2]){
+				
+				cylinder(h=tcSmoothRodLenght+cutOut,d=tcSmoothRodDiamiter);
+				
+			}	
+			
+			translate([toolCarridgePlateX-tcSmoothRodDiamiter/2-wallThickness,-tcSmoothRodDiamiter,-tcSmoothRodLenght/2]){
+					
+				cylinder(h=tcSmoothRodLenght+cutOut,d=tcSmoothRodDiamiter);
+			}
+
+		}
+		
+	//}
+	
+}
+
+toolHeadCarridge();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
