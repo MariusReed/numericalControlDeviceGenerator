@@ -234,7 +234,3 @@ module stepperMount(){
 	
 }
 
-//stepperMount();
-//jointOuterSupportPrimitive(true);
-//extrusionSleevePair();
-//jointInnerSupport();
