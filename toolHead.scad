@@ -1,210 +1,235 @@
 include <variables.scad>;
-/*
-module tcThreadedRodLoop(){
-	
-	for (right = [-1,1]){
-		
-		for (left = [-1,1]){
-			
-		translate([right*(toolCarridgePlateX/2-tcThreadedRodOffset),left*(toolCarridgePlateY/2-tcThreadedRodOffset),(-toolCarridgePlateZ-cutOut)/2])
-			
-			cylinder(h=toolCarridgePlateZ+cutOut,d=tcThreadedRodDiamiter);
-			
-		}
-	
-	}
-	
-}
+include <servo.scad>;
 
-module tcSmoothRodPlatform(){
+module tcRodCutOut(){
 	
-	difference(){
-	
-		translate([0,-toolCarridgePlateY/2-tcSmoothRodPlatformY/2,0]){
-			cube([tcSmoothRodPlatformX,tcSmoothRodPlatformY,tcSmoothRodPlatformZ],true);
-		}
-	
-		for (front = [-1,1]){
-			
-			translate([front*(tcSmoothRodOffset+wallThickness),-toolCarridgePlateY/2-tcSmoothRodPlatformY/2,(-toolCarridgePlateZ-cutOut)/2]){
-			
-				cylinder(h=toolCarridgePlateZ+cutOut,d=tcSmoothRodDiamiter);
-			}
-		
-		}
-	
-	}
-	
-}
-
-module tcLeadScrewHole(){
-	
-	translate([0,-toolCarridgePlateY/2+tcSmoothRodOffset,(-toolCarridgePlateZ-cutOut)/2]){
-			
-		cylinder(h=toolCarridgePlateZ+cutOut,d=tcLeadScrewDiamiter);
-		
-	}
-	
-}
-	
-
-
-module toolCarridgePlatePrimitive(){
-	
-	difference(){
-		
-		cube([toolCarridgePlateX,toolCarridgePlateY,toolCarridgePlateZ],true);
-	
-		tcThreadedRodLoop();
-		
-		tcLeadScrewHole();
-		
-	}
-	
-	tcSmoothRodPlatform();
-	
-}
-
-module tcLeadScrewBearingHousing(){
-	
-	difference(){
-		
-		cube([tcLeadScrewBearingHousingX,tcLeadScrewBearingHousingY,tcLeadScrewBearingHousingZ],true);
-		
-		translate([0,0,-(tcLeadScrewBearingHousingZ+cutOut)/2]){
-			
-			cylinder(h=tcLeadScrewBearingHousingZ+cutOut,d=zz608BearingOD);
-			
-		}
-		
-	}
-	
-}	
-
-module toolHeadSlideHalf(){
-	difference(){
-		union(){
-			hull(){
-				for (front = [-1,1]){
-			
-					translate([front*(tcSmoothRodOffset+wallThickness),-toolCarridgePlateY/2-tcSmoothRodPlatformY/2,0]){
-			
-						cylinder(h=toolHeadSlideHight, d=lm8luuOD+wallThickness);
-
-					}
-		
-				}
-			
-				cylinder(h=toolHeadSlideHight, d=tcLeadScrewDiamiter+wallThickness);
-		
-			}
-			translate([0,0,toolHeadSlideHight/2]){
+	translate([tcSmoothRodDiamiter/2+wallThickness,-tcSmoothRodDiamiter/2-wallThickness/2,-tcSmoothRodLenght/2-cutOut/2]){
 				
-				cube([tcLeadScrewNutWidth,tcLeadScrewNutWidth,toolHeadSlideHight],true);
-			}
-		}
-		
-		for (front = [-1,1]){
-			
-			translate([front*(tcSmoothRodOffset+wallThickness),-toolCarridgePlateY/2-tcSmoothRodPlatformY/2,0]){
-			
-				cylinder(h=lm8luuHeight/2, d=lm8luuOD);
-						
-				translate([0,0,toolHeadSlideHight-wallThickness/2]){
-							
-					cylinder(h=wallThickness/2+cutOut, d=tcSmoothRodDiamiter);
-							
-				}
+		cylinder(h=tcSmoothRodLenght+cutOut,d=tcSmoothRodDiamiter);
 				
+	}	
+			
+	translate([toolCarridgePlateX-tcSmoothRodDiamiter/2-wallThickness,-tcSmoothRodDiamiter/2-wallThickness/2,-tcSmoothRodLenght/2-cutOut/2]){
+					
+		cylinder(h=tcSmoothRodLenght+cutOut,d=tcSmoothRodDiamiter);
+				
+	}
+	
+}
+
+module linearRailBlockCutout(){
+	
+	cube([mgn12hLength+cutOut,mgn12hWidth+cutOut,mgn12hHeight]);
+	
+	for (i = [0, 1]) {
+		
+		for (j = [0, 1]) {
+			
+			translate([11 + i * mgn12hScrewSpacing, 3.5 + j * mgn12hScrewSpacing, mgn12hHeight]) {
+				
+				cylinder(h = toolCarridgePlateZ * 2 + cutOut, d = m3ScrewHole);
+				
+				translate([0,0,toolCarridgePlateZ-m3ScrewHeadHeight]){
+				cylinder(h = m3ScrewHeadHeight + cutOut, d = m3ScrewHeadDiamiter);
+				}
 			}
-	
-		}
-		
-		translate([0,0,-cutOut/2]){
-			cylinder(h=toolHeadSlideHight+cutOut, d=tcLeadScrewDiamiter);
+			
 		}
 		
 	}
 	
 }
 
-
-toolHeadSlideHalf();
-//mirror([0,0,1])toolHeadSlideHalf();
-
-module toolCarridgePlateBottom(){
-	
-	
-		translate([0,(-toolCarridgePlateY+tcLeadScrewBearingHousingY)/2,-toolCarridgePlateZ+tcLeadScrewBearingHousingZ/2]){
-			
-			tcLeadScrewBearingHousing();
-			
-		}
-		
-		translate([0,0,toolCarridgePlateZ/2]){
-		
-			toolCarridgePlatePrimitive();
-		
-		}
-		
-	
-	
-}
-
-module toolCarridgePlateTop(){
-	
-	
-	
-	translate([0,0,tcHeight-toolCarridgePlateZ/2]){
-		
-		toolCarridgePlatePrimitive();
-
-		translate([0,(-toolCarridgePlateY+tcLeadScrewBearingHousingY)/2,toolCarridgePlateZ/2+tcLeadScrewBearingHousingZ/2]){
-			
-			tcLeadScrewBearingHousing();
-			
-		}
-	}
-	
-}
-
-module toolCarridge(){
-	
-	toolCarridgePlateTop();
-	
-	toolCarridgePlateBottom();
-	
-}
-//tcSmoothRodLenght
-//tcSmoothRodDiamiter
-//toolCarridge();
-*/
 module penToolSlideSideZ(){
 	
-	cube([wallThickness,tcPenSliderY,tcSmoothRodLenght]);
+		
+		cube([wallThickness,tcPenSliderY,tcSmoothRodLenght]);
+		
+		
 	
 }
 
 module penToolSlideSideX(){
+	difference(){
+		cube([tcPenSliderX,tcPenSliderY,wallThickness]);
 	
-	cube([tcPenSliderX,tcPenSliderY,wallThickness]);
-
+		translate([tcSmoothRodDiamiter+wallThickness,tcPenSliderY+cutOut/2,wallThickness/2]){
+			
+			rotate([90,0,0]){	
+				
+				cylinder(h=wallThickness/2+cutOut,d=m2ScrewHole);
+				
+			}
+			
+		}
+	
+		translate([tcPenSliderX-tcSmoothRodDiamiter-wallThickness,tcPenSliderY+cutOut/2,wallThickness/2]){
+			
+			rotate([90,0,0]){	
+				
+				cylinder(h=wallThickness/2+cutOut,d=m2ScrewHole);
+				
+			}
+			
+		}
+	}	
 }
 
 module toolHeadCarridgeBase(){
-
-	cube([toolCarridgePlateX,toolCarridgePlateY,toolCarridgePlateZ]);
 	
-	translate([0,-tcSmoothRodDiamiter-wallThickness,toolCarridgePlateZ]){
+	difference(){
+	
+		union(){
+			cube([toolCarridgePlateX,toolCarridgePlateY,toolCarridgePlateZ]);
+	
+			translate([0,-tcSmoothRodDiamiter-wallThickness,toolCarridgePlateZ]){
 			
-		cube([toolCarridgePlateX,toolCarridgePlateY+tcSmoothRodDiamiter+wallThickness,toolCarridgePlateZ]);
+				cube([toolCarridgePlateX,toolCarridgePlateY+tcSmoothRodDiamiter+wallThickness,toolCarridgePlateZ]);
+				
+			}
+		}
+		
+		translate([toolCarridgePlateX/2-mgn12hLength/2,toolCarridgePlateY/2-mgn12hWidth/2,-mgn12hHeight+wallThickness]){
 			
+			linearRailBlockCutout();
+			
+		}
+		
+		translate([toolCarridgePlateX/2-(servoFeetX*2+servoShelfX)/2,(servoShelfY-servoFeetY)/2,toolCarridgePlateZ]){
+
+			servoShelfMountingHoles();
+
+		}
 	}
+}
+
+module penToolPlateInterface(){
+
+	
+	cube([tcSmoothRodDiamiter+wallThickness,tcPenSliderY,wallThickness]);
 
 }
 
+module penToolHolderCutOut(){
+	
+	translate([0,-penToolHolderMaxInnerDiameter/2+cutOut,penToolHolderHeight/2]){
+		
+		rotate([90,0,0]){
+			
+			cylinder(h=wallThickness*2+cutOut*2,d=m4ScrewHole);
+		
+		}
+		
+	}
+	
+	hull(){	
+		
+		difference(){
+		
+			translate([0,0,-cutOut/2]){
+			
+				cylinder(h=penToolHolderHeight+cutOut,d=penToolHolderMaxInnerDiameter);
+			
+			}
+			
+			translate([-penToolHolderMaxInnerDiameter/2,0,-cutOut]){
+						
+				cube([penToolHolderMaxInnerDiameter,penToolHolderMaxInnerDiameter/2,penToolHolderHeight+cutOut*2]);
+			
+			}
+						
+		}
+	
+		translate([0,penToolHolderMaxInnerDiameter/2,0]){
+			
+			cylinder(h=penToolHolderHeight+cutOut,d=penToolHolderMinInnerDiameter);
+			
+		}
+		
+	}
+	
+}
+
+module penToolHolder(){
+	
+	translate([toolCarridgePlateX/2,-penToolHolderOuterDiameter/2-tcPenSliderY-toolPlateThickness-cutOut,-penToolHolderHeight/2]){
+		
+		difference(){	
+			union(){
+			cylinder(h=penToolHolderHeight,d=penToolHolderOuterDiameter);
+				
+				translate([-penToolHolderOuterDiameter/2,0,0]){
+					
+					cube([penToolHolderOuterDiameter,penToolHolderOuterDiameter/2,penToolHolderHeight]);	
+					
+				}
+				
+			}
+			penToolHolderCutOut();	
+			
+		}
+			
+	}	
+	
+}
+
+module penToolPalteServoLip(){
+ cube ([servoLipX,servoLipY,servoLipZ]);
+}
+module penToolPlate(){
+	
+	difference(){
+		
+		union(){
+			
+				translate([(toolCarridgePlateX-servoLipX-cutOut)/2,-servoLipY-cutOut,tcSmoothRodLenght/2-servoLipZ]){
+					penToolPalteServoLip();
+				}
+			translate([-wallThickness,-tcPenSliderY-wallThickness/2-cutOut,-penToolHolderHeight/2]){
+		
+				cube([toolCarridgePlateX+wallThickness*2,toolPlateThickness,tcSmoothRodLenght/2+penToolHolderHeight/2]);
+				
+				
+				translate([wallThickness/2+tcSmoothRodDiamiter/2,wallThickness/2,0]){
+			
+					penToolPlateInterface();
+			
+				}
+		
+				translate([wallThickness/2+tcSmoothRodDiamiter/2,wallThickness/2,tcSmoothRodLenght/2-wallThickness-cutOut]){
+			
+					penToolPlateInterface();
+			
+				}
+		
+				translate([toolCarridgePlateX-wallThickness/2-tcSmoothRodDiamiter,wallThickness/2,0]){
+			
+					penToolPlateInterface();
+			
+				}
+		
+				translate([toolCarridgePlateX-wallThickness/2-tcSmoothRodDiamiter,wallThickness/2,tcSmoothRodLenght/2-wallThickness-cutOut]){
+			
+					penToolPlateInterface();
+			
+				}
+		
+			}
+	
+		}
+		union(){
+			
+			tcRodCutOut();
+		
+		}
+	
+	}
+	
+}
+
+
 module toolHeadCarridge(){
-	//difference(){
+	difference(){
 		union(){
 		
 			toolHeadCarridgeBase();
@@ -216,11 +241,29 @@ module toolHeadCarridge(){
 			}
 			
 			translate([-wallThickness,-tcSmoothRodDiamiter-wallThickness,tcPenSliderZ/2-wallThickness]){
-				
-				penToolSlideSideX();
+				difference(){
+					
+					penToolSlideSideX();
+					
+					translate([tcPenSliderX/2-tcPensliderTopCutoutX/2,-cutOut/2,-cutOut/2]){
+					
+						cube([tcPensliderTopCutoutX,tcPensliderTopCutoutY,tcPensliderTopCutoutZ]);	
+					
+					}
+					
+				}
 				
 			}
 			
+			translate([tcSmoothRodDiamiter+wallThickness*2-cutOut,-tcPenSliderY,wallThickness*2]){
+				cube([wallThickness,tcPenSliderY,tcSmoothRodLenght/2-wallThickness*2]);
+			}
+			
+			translate([toolCarridgePlateX-tcSmoothRodDiamiter-wallThickness*3+cutOut,-tcPenSliderY,wallThickness*2]){
+				cube([wallThickness,tcPenSliderY,tcSmoothRodLenght/2-wallThickness*2]);
+			
+			}
+				
 			translate([-wallThickness,-tcSmoothRodDiamiter-wallThickness,-tcPenSliderZ/2]){
 				
 				penToolSlideSideZ();
@@ -237,29 +280,23 @@ module toolHeadCarridge(){
 		
 		union(){
 			
-			translate([tcSmoothRodDiamiter/2+wallThickness,-tcSmoothRodDiamiter,-tcSmoothRodLenght/2]){
+			tcRodCutOut();
 				
-				cylinder(h=tcSmoothRodLenght+cutOut,d=tcSmoothRodDiamiter);
-				
-			}	
-			
-			translate([toolCarridgePlateX-tcSmoothRodDiamiter/2-wallThickness,-tcSmoothRodDiamiter,-tcSmoothRodLenght/2]){
-					
-				cylinder(h=tcSmoothRodLenght+cutOut,d=tcSmoothRodDiamiter);
-			}
-
 		}
-		
-	//}
+
+	}
 	
 }
+	
+
 
 toolHeadCarridge();
+penToolPlate();
+penToolHolder();
 
-
-
-
-
+translate([(toolCarridgePlateX-servoShelfX)/2,0,toolCarridgePlateZ*2]){
+servoShelf();	
+}
 
 
 
