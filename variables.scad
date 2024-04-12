@@ -26,6 +26,8 @@ m4ScrewHeadHeight = 4;
 m5ScrewHeadHeight = 5;
 m6ScrewHeadHeight = 6;
 
+
+
 //dimention of extrusion aluminium profile
 extrusionHeight = 40;
 extrusionWidth = 20;
@@ -57,6 +59,15 @@ zz608BearingHeight = 7;
 lm8luuOD = 15;
 lm8luuID = 8;
 lm8luuHeight = 45;
+
+//GT2 belt
+gt2BeltWidth = 6;
+gt2IdlerGearWallThickness = 1.6;
+gt2IdlerGearRimHeight = 1.6;
+gt2IdlerGearRimOverHang = 4;
+gt2IdlerGearHeight = gt2BeltWidth+cutOut+gt2IdlerGearRimHeight*2;
+gt2IdlerGearDiameter = zz608BearingOD+cutOut+gt2IdlerGearWallThickness*2;
+gt2IdlerGearRimDiameter = gt2IdlerGearDiameter+gt2IdlerGearRimOverHang;
 
 //inner support
 frontSupportThickness = extrusionHeight/10;
