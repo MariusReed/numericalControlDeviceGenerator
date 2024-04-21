@@ -27,8 +27,8 @@ m5ScrewHeadHeight = 5;
 m6ScrewHeadHeight = 6;
 
 //dimention of extrusion aluminium profile
-extrusionHeight = 40;
-extrusionWidth = 20;
+extrusionHeight = 40+cutOut;
+extrusionWidth = 20+cutOut;
 extrusionDepth = 50;
 
 //extrusionSlotMetrics
@@ -154,4 +154,8 @@ servoLipX = tcPensliderTopCutoutX-wallThickness*2-cutOut;
 servoLipY = tcPensliderTopCutoutY-cutOut;
 servoLipZ = tcPensliderTopCutoutZ;
 
-
+endStopMountingHoleDiameter = m2ScrewHole;
+endStopMountingHoleSpacing = 9.5;
+endStopMountingHoleFrontOffset = 7.9;
+endStopMountingHoleSideOffset = 5.25;
+endStopMountingHoleDepth = wallThickness+cutOut-1;
