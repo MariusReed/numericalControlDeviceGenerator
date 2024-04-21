@@ -1,22 +1,47 @@
 include <variables.scad>;
 include <primitives.scad>;
+include <endStop.scad>;
 
-//this needs to be re worked
-module extrusionBoltHoles(){
-
-	for(boltPlacementZ  = [wallThickness+extrusionSlotOffset+extrusionSlotWidth/2: extrusionSlotMid+extrusionSlotWidth/2 : extrusionHeight]){
-													
-		for(boltPlacementY = [wallThickness+extrusionDepth/4: extrusionDepth/2 : extrusionDepth]){
+module extrusionBoltHoles(hasEndStop){
+	if (hasEndStop==true){
+		
+			for(boltPlacementZ  = [wallThickness+extrusionSlotOffset+extrusionSlotWidth/2: extrusionSlotMid+extrusionSlotWidth : extrusionHeight]){
+			//this exception for the endStop could be better, I just dont know how yet.	something like a "check distance to back of endstop + screw head diameter.									
+			for(boltPlacementY = [wallThickness+extrusionDepth/4: extrusionDepth/3 : extrusionDepth]){
 					
 				
-			translate([-cutOut/2,boltPlacementY,boltPlacementZ]){  
+				translate([-cutOut/2,boltPlacementY,boltPlacementZ]){  
 				
-				rotate([0,90,0]){
+					rotate([0,90,0]){
 						
 						
-					extrusionBoltPrimitive();
+						extrusionBoltPrimitive();
 						
-            
+					}
+					
+				}
+						
+			}
+			
+		}
+		
+	}
+	else{
+		
+		for(boltPlacementZ  = [wallThickness+extrusionSlotOffset+extrusionSlotWidth/2: extrusionSlotMid+extrusionSlotWidth : extrusionHeight]){
+													
+			for(boltPlacementY = [wallThickness+extrusionDepth/4: extrusionDepth/2 : extrusionDepth]){
+					
+				
+				translate([-cutOut/2,boltPlacementY,boltPlacementZ]){  
+				
+					rotate([0,90,0]){
+						
+						
+						extrusionBoltPrimitive();
+						
+					}
+					
 				}
 						
 			}
@@ -27,9 +52,7 @@ module extrusionBoltHoles(){
 	
 }
 
-
-
-module extrusionSleevePair(){
+module extrusionSleevePair(hasEndStop){
 	
 	translate([0,outerExtrusionWidth,0]){
 			
@@ -37,7 +60,23 @@ module extrusionSleevePair(){
 				
 				extrusionSleevePrimitive();
 			
+				
+				
+				if (hasEndStop==true){
+					
+					extrusionBoltHoles(true);
+					
+					translate([-cutOut/2,outerExtrusionDepth-endStopMountingHoleFrontOffset,outerExtrusionHeight-endStopMountingHoleSideOffset]){
+					
+						endStopCutout();
+					}
+				}
+				
+				else{
+					
 				extrusionBoltHoles();
+					
+				}
 				
 			}
 			
@@ -161,15 +200,18 @@ module jointOuterSupportPrimitive(hasStepperMotorCutout){
 	
 	else{
 		
-		
-			
 		difference(){
             
-			translate([outerExtrusionWidth/2,outerExtrusionWidth/2,outerExtrusionHeight/2]){				
+			translate([outerExtrusionWidth/2,outerExtrusionWidth/2,outerExtrusionHeight/2]){
+				
                 cube([outerExtrusionWidth, outerExtrusionWidth, outerExtrusionHeight], true);
-				}
+				
+			}
+			
 			translate([outerExtrusionWidth/2,outerExtrusionWidth/2,outerExtrusionHeight-gt2IdlerGearHeight+cutOut/2]){
+				
                 cylinder(h=gt2IdlerGearHeight+cutOut,d=m5ScrewHole);
+				
 			}
 
 		}	
@@ -226,7 +268,9 @@ module stepperMount(){
 	}	
 	
 }
-//extrusionSleevePair();
+
+
+extrusionSleevePair(true);
 //jointInnerSupport();
-stepperMount();
+//stepperMount();
 //jointOuterSupportPrimitive(true);
