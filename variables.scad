@@ -26,8 +26,6 @@ m4ScrewHeadHeight = 4;
 m5ScrewHeadHeight = 5;
 m6ScrewHeadHeight = 6;
 
-
-
 //dimention of extrusion aluminium profile
 extrusionHeight = 40;
 extrusionWidth = 20;
@@ -62,12 +60,14 @@ lm8luuHeight = 45;
 
 //GT2 belt
 gt2BeltWidth = 6;
+//GT2 smooth Idler
 gt2IdlerGearWallThickness = 1.6;
 gt2IdlerGearRimHeight = 1.6;
 gt2IdlerGearRimOverHang = 4;
 gt2IdlerGearHeight = gt2BeltWidth+cutOut+gt2IdlerGearRimHeight*2;
 gt2IdlerGearDiameter = zz608BearingOD+cutOut+gt2IdlerGearWallThickness*2;
 gt2IdlerGearRimDiameter = gt2IdlerGearDiameter+gt2IdlerGearRimOverHang;
+//GT2 Toothed Idler
 
 //inner support
 frontSupportThickness = extrusionHeight/10;
@@ -77,12 +77,13 @@ innerSupportDifference = sqrt(2)*outerExtrusionDepth;
 outerSupportDifference = sqrt(2)*outerExtrusionWidth;
 
 //stepper Motor
-stepperMotorHight = 31;
-stepperMotorWidth = 41;
-stepperMotorScrewDiameter = 3;
+stepperMotorHight = 40;
+stepperMotorWidth = 42;
+stepperMotorScrewDiameter = m3ScrewHole;
 stepperMotorShaftDiameter = 22;
-stepperThreadOffset = 10;
-stepperMotorMountThickness = 4;
+stepperThreadExternalOffset = 5.5;
+stepperThreadInternalOffset = 31;
+stepperMotorMountThickness = wallThickness;
 
 //active working area dementions
 axisLengthY = 500;
