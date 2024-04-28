@@ -19,7 +19,7 @@ module extrusionSleevePrimitive(){
 
 module extrusionBoltPrimitive(){
 	
-	cylinder(h=outerExtrusionWidth+cutOut,d=extrusionMountBoltDiameter,center = false);
+	cylinder(h=outerExtrusionWidth+cutOut,d=extrusionMountBoltDiameter);
 	
 }
 
