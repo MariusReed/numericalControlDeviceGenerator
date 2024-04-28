@@ -1,4 +1,5 @@
-include <variables.scad>
+include <variables.scad>;
+include <functions.scad>;
 
 module gt2IdlerGear(){
 	difference(){
@@ -30,8 +31,9 @@ module gt2IdlerGear(){
 
 //gt2IdlerGear();
 
+//gt2_2mmToothedPulley
 
-// Parametric Pulley with multiple belt profiles
+// Based on Parametric Pulley with multiple belt profiles
 // by droftarts January 2012
 // optimized for Thingiverse customizer February 2017
 
@@ -42,15 +44,6 @@ module gt2IdlerGear(){
 // http://www.thingiverse.com/thing:2079 by nophead
 
 // dxf tooth data from http://oem.cadregister.com/asp/PPOW_Entry.asp?company=915217&elementID=07807803/METRIC/URETH/WV0025/F
-
-// Define variables
-gt2IdlerToothCount = 45; // Number of teeth
-GT2_2mmPulleyDiameter = toothSpacing (2,0.254);
-function toothSpacing(toothPitch,pitchLlineOffset)
-	= (2*((gt2IdlerToothCount*toothPitch)/(3.14159265*2)-pitchLlineOffset)) ;
-toothAngle = 360 / gt2IdlerToothCount;
-
-
 
 gt2_2mmToothProfile = [
     [0.747183,-0.5],
@@ -77,8 +70,6 @@ gt2_2mmToothProfile = [
     [-0.747183,0],
     [-0.747183,-0.5]
 ];
-
-// Calculate the angle between each tooth
 
 
 // Define function to rotate and extrude the tooth profile
