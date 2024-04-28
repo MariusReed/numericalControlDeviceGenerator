@@ -11,6 +11,7 @@ m3ScrewHole = 3;
 m4ScrewHole = 4;
 m5ScrewHole = 5;
 m6ScrewHole = 6;
+m8ScrewHole = 8;
 
 //screw head diamiters
 m2ScrewHeadDiamiter = 3.8;
@@ -18,17 +19,19 @@ m3ScrewHeadDiamiter = 7.66;
 m4ScrewHeadDiamiter = 8.5;
 m5ScrewHeadDiamiter = 10;
 m6ScrewHeadDiamiter = 10.22;
+m8ScrewHeadDiamiter = 13;
 
 //screw head hight
 m2ScrewHeadHeight = 2;
 m3ScrewHeadHeight = 3;
 m4ScrewHeadHeight = 4;
 m5ScrewHeadHeight = 5;
-m6ScrewHeadHeight = 6;
+m6ScrewHeadHeight = 5;
+m8ScrewHeadHeight = 5;
 
 //dimention of extrusion aluminium profile
-extrusionHeight = 40+cutOut;
-extrusionWidth = 20+cutOut;
+extrusionHeight = 40+(cutOut*2);
+extrusionWidth = 20+(cutOut*2);
 extrusionDepth = 50;
 
 //extrusionSlotMetrics
@@ -67,10 +70,14 @@ gt2IdlerGearRimOverHang = 4;
 gt2IdlerGearHeight = gt2BeltWidth+cutOut+gt2IdlerGearRimHeight*2;
 gt2IdlerGearDiameter = zz608BearingOD+cutOut+gt2IdlerGearWallThickness*2;
 gt2IdlerGearRimDiameter = gt2IdlerGearDiameter+gt2IdlerGearRimOverHang;
-//GT2 Toothed Idler
+
+//GT2 toothed Idler
+gt2IdlerWithToothHight = gt2BeltWidth+gt2IdlerGearRimHeight*2+cutOut;
+gt2IdlerToothCount = 40; 
+GT2_2mmPulleyDiameter = toothSpacing (2,0.254);
 
 //inner support
-frontSupportThickness = extrusionHeight/10;
+frontSupportThickness = wallThickness;
 innerSupportDifference = sqrt(2)*outerExtrusionDepth;
 
 //outer support
@@ -126,6 +133,7 @@ servoShelfZ = servoBodyZ+wallThickness;
 servoFeetX = m3ScrewHole+wallThickness;
 servoFeetY = m3ScrewHole+wallThickness;
 servoFeetZ = wallThickness;
+
 //tool carridge (tc)
 toolCarridgePlateX = tcSmoothRodDiamiter*2+servoShelfX+wallThickness*6+cutOut*2;
 toolCarridgePlateY = extrusionHeight;
@@ -154,8 +162,43 @@ servoLipX = tcPensliderTopCutoutX-wallThickness*2-cutOut;
 servoLipY = tcPensliderTopCutoutY-cutOut;
 servoLipZ = tcPensliderTopCutoutZ;
 
+//end stop
 endStopMountingHoleDiameter = m2ScrewHole;
 endStopMountingHoleSpacing = 9.5;
 endStopMountingHoleFrontOffset = 7.9;
 endStopMountingHoleSideOffset = 5.25;
 endStopMountingHoleDepth = wallThickness+cutOut-1;
+
+//rear tension idler housing
+idlerHousingClerance = 1;
+idlerHousingWidth = outerExtrusionWidth;
+idlerHousingDepth = outerExtrusionWidth;
+idlerHousingHeight = gt2IdlerGearHeight+wallThickness*2;
+
+idlerHousingCutOutWidth = GT2_2mmPulleyDiameter+idlerHousingClerance*2;
+idlerHousingCutOutDepth = GT2_2mmPulleyDiameter+idlerHousingClerance+cutOut;
+idlerHousingCutOutHeight = gt2IdlerGearHeight+idlerHousingClerance*2;
+
+idlerScrewDiameter = m8ScrewHole;
+idlerScrewHeadDiameter = m8ScrewHeadDiamiter;
+idlerScrewHeadHeight = m8ScrewHeadHeight;
+
+//tension slide
+tsWidth = idlerScrewDiameter*2;
+tsLength = outerExtrusionWidth;
+tsHight = wallThickness;
+tsSlant = tsWidth-tsWidth/1.1;
+
+tensionerPlateThickness = wallThickness*2;
+
+//tnesioner screw
+idlerScrewLength = idlerHousingHeight+tsHight+cutOut;
+//tension slide faces
+tsFaces = [
+  [0,1,2,3],  // bottom
+  [4,5,1,0],  // front
+  [7,6,5,4],  // top
+  [5,6,2,1],  // right
+  [6,7,3,2],  // back
+  [7,4,0,3]]; // left
+
