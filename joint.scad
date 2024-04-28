@@ -1,6 +1,8 @@
 include <variables.scad>;
+include <functions.scad>;
 include <primitives.scad>;
 include <endStop.scad>;
+include <tensionerHousing.scad>;
 
 module extrusionBoltHoles(hasEndStop){
 	if (hasEndStop==true){
@@ -172,7 +174,7 @@ module jointInnerSupport(){
 	
 }
 
-module jointOuterSupportPrimitive(hasStepperMotorCutout){
+module jointOuterSupportPrimitive(hasStepperMotorCutout,backRight){
 	
 	if (hasStepperMotorCutout==true){
 		
@@ -207,13 +209,20 @@ module jointOuterSupportPrimitive(hasStepperMotorCutout){
                 cube([outerExtrusionWidth, outerExtrusionWidth, outerExtrusionHeight], true);
 				
 			}
+			if (backRight == true){
 			
-			translate([outerExtrusionWidth/2,outerExtrusionWidth/2,outerExtrusionHeight-gt2IdlerGearHeight+cutOut/2]){
+				translate([outerExtrusionWidth/2-tsWidth/2,-cutOut/2,outerExtrusionHeight-tsHight]){
+					tensionerSlideCutOut();
 				
-                cylinder(h=gt2IdlerGearHeight+cutOut,d=m5ScrewHole);
-				
+				}
 			}
-
+			else {
+				rotate([0,0,90]){
+					translate([outerExtrusionWidth/2-tsWidth/2,-tsLength+cutOut/2,outerExtrusionHeight-tsHight]){
+						tensionerSlideCutOut();
+					}	
+				}
+			}
 		}	
 		
 	}
@@ -270,7 +279,8 @@ module stepperMount(){
 }
 
 
-extrusionSleevePair(true);
-//jointInnerSupport();
+extrusionSleevePair(false);
+jointInnerSupport();
 //stepperMount();
-//jointOuterSupportPrimitive(true);
+//syntax jointOuterSupportPrimitive(hasStepperMotorCutout,backRight)
+jointOuterSupportPrimitive(false,false);
