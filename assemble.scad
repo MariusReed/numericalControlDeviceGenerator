@@ -12,7 +12,7 @@ module cornerJoint(position) {
             rotate([0,0,0]) {
                 stepperMount();
                 jointOuterSupportPrimitive(true);
-                extrusionSleevePair();
+                extrusionSleevePair(true);
                 jointInnerSupport();
             }
         }
